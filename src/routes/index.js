@@ -14,6 +14,11 @@ export const router = new VueRouter({
             name: 'signup',
             component: () => import('../page/SignUp')
         },
+        {
+            path: '/trang-chu',
+            name: 'home',
+            component: () => import('../page/Home')
+        },
 
     ],
     mode: "history"

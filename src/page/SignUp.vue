@@ -1,13 +1,14 @@
 <template>
-  <div>
-    <div class="container bg-green-300 w-auto mx-auto ">
-      <div class="bg-green-300 h-screen w-full">
+  <div class="bg-teal-100">
+    <div class="container w-auto mx-auto ">
+      <div class="h-screen w-full">
         <div class="flex flex-col items-center flex-1 h-full justify-center px-4 sm:px-0">
-          <div class="flex rounded-lg shadow-lg w-full sm:w-3/4 lg:w-1/2 bg-white sm:mx-0" style="">
-            <div class="flex flex-col w-full md:w-1/2 p-4">
-              <div class="flex flex-col flex-1 justify-center mb-8">
+          <div class="flex justify-center items-center rounded-lg shadow-lg w-full sm:w-3/4 lg:w-1/2 bg-white sm:mx-0"
+               style="">
+            <div class="flex flex-col w-full p-4">
+              <div class="flex flex-col flex-1 justify-center items-center mb-8">
                 <h1 class="text-4xl text-center font-thin">Register </h1>
-                <div class="w-full mt-4">
+                <div class="w-1/2 mt-4">
                   <form class="form-horizontal w-3/4 mx-auto" method="POST" @submit.prevent="">
                     <div class="flex flex-col mt-4">
                       <input id="email" v-model="email" type="text"
@@ -23,18 +24,17 @@
                     <div class="flex flex-col mt-4">
                       <input id="confirmPassword" v-model="confirmPassword" type="password"
                              class="flex-grow h-8 px-2 rounded border border-grey-400" name="confirmPassword" required
-                             placeholder="confirmPassword"
+                             placeholder="Confirm password"
                       />
                     </div>
                     <div class="flex flex-col mt-8">
-                      <button class="bg-blue-500 hover:bg-blue-700 text-white text-sm font-semibold py-2 px-4 rounded"
+                      <button class="bg-teal-500 hover:bg-teal-700 text-white text-sm font-semibold py-2 px-4 rounded"
                               @click="signup()"
                       >
                         Register
                       </button>
                     </div>
                   </form>
-
                 </div>
               </div>
             </div>
@@ -64,10 +64,13 @@ export default {
   methods: {
     async signup() {
       if (this.email == "" || this.password == "" || this.confirmPassword == "") {
-        alert("không được bo trống trường nào");
+        alert("Vui lòng điền hết các trường!");
         return;
       } else if (this.password !== this.confirmPassword) {
-        alert("password và confirmPassword không giống nhau");
+        alert("Mật khẩu nhập lại chưa đúng!");
+        return;
+      } else if (this.password.length < 6) {
+        alert("Mật khẩu phải nhiều hơn 6 ký tự!");
         return;
       }
       try {
@@ -78,9 +81,11 @@ export default {
           email: response.user.email,
           userId: response.user.uid,
         });
-        alert('Register success')
+        alert('Đăng ký thành công')
+        await this.$router.push("/")
       } catch (error) {
         console.log(error.message);
+        alert(error.message)
       }
     },
   },
